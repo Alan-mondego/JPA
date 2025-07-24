@@ -6,18 +6,16 @@ import jakarta.persistence.*;
 public class ItemLocacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    // --- A CORREÇÃO ESTÁ AQUI ---
-    // Em vez de um @JoinColumn, usamos @JoinColumns para especificar
-    // ambas as colunas da chave primária composta de JogoPlataforma.
+
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "jogo_id", referencedColumnName = "jogo_id"),
             @JoinColumn(name = "plataforma_id", referencedColumnName = "plataforma_id")
     })
     private JogoPlataforma jogoPlataforma;
-    // --- FIM DA CORREÇÃO ---
+
 
     private Integer dias;
     private Integer quantidade;
@@ -27,12 +25,11 @@ public class ItemLocacao {
     private Locacao locacao;
 
 
-    // Getters e Setters (não precisam de alteração)
-    public Long getId() {
+    public  Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+   protected void setId(Integer id) {
         this.id = id;
     }
 

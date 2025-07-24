@@ -9,7 +9,7 @@ import java.util.List;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String nome;
     private String email;
@@ -30,11 +30,11 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    protected void setId(Integer id) {
         this.id = id;
     }
 

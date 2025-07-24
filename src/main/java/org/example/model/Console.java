@@ -10,7 +10,7 @@ public class Console {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String nome;
     private BigDecimal precoPorHora;
@@ -23,11 +23,11 @@ public class Console {
     )
     private List<Acessorio> acessorios = new ArrayList<>();
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    protected  void setId(Integer id) {
         this.id = id;
     }
 

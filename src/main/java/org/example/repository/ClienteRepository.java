@@ -3,7 +3,7 @@ package org.example.repository;
 import jakarta.persistence.EntityManager;
 import org.example.model.Cliente;
 
-// Responsabilidade: Apenas acessar o banco de dados para a entidade Cliente.
+
 public class ClienteRepository {
 
     private final EntityManager em;

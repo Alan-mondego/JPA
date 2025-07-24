@@ -5,7 +5,6 @@ import org.example.model.Jogo;
 import org.example.model.JogoPlataforma;
 import org.example.model.Plataforma;
 
-// Responsabilidade: Apenas acessar o banco de dados para a entidade Jogo e relacionadas.
 public class JogoRepository {
 
     private final EntityManager em;

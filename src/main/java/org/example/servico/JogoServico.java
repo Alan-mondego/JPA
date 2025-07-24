@@ -8,7 +8,7 @@ import org.example.repository.JogoRepository;
 
 import java.math.BigDecimal;
 
-// Responsabilidade: Orquestrar a lógica de negócio para cadastrar um jogo.
+
 public class JogoServico {
 
     private final EntityManager em;
@@ -22,7 +22,6 @@ public class JogoServico {
     public void cadastrarJogoComPlataforma(String tituloJogo, String nomePlataforma, BigDecimal precoDiario) {
         em.getTransaction().begin();
 
-        // Lógica de negócio: "Buscar ou criar"
         Plataforma plataforma = jogoRepository.buscarPlataformaPorNome(nomePlataforma);
         if (plataforma == null) {
             plataforma = new Plataforma(nomePlataforma);

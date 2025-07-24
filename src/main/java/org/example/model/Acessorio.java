@@ -17,11 +17,11 @@ public class Acessorio {
     @ManyToMany(mappedBy = "acessorios")
     private List<Console> consoles = new ArrayList<>();
 
-    public Integer getId() {
+    public  Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    protected void setId(Integer id) {
         this.id = id;
     }
 

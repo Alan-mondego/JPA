@@ -21,11 +21,11 @@ public class UtilizacaoDoConsolePeloCliente {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public Integer getId() {
+    public  Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    protected void setId(Integer id) {
         this.id = id;
     }
 

@@ -24,11 +24,11 @@ public class Jogo {
         this.titulo = titulo;
     }
 
-    public Integer getId() {
+public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+  protected  void setId(Integer id) {
         this.id = id;
     }
 

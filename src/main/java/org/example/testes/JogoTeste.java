@@ -15,27 +15,37 @@ public class JogoTeste {
         Scanner sc = new Scanner(System.in);
         JogoServico jogoServico = new JogoServico(em);
 
-        System.out.println("--- Teste de Cadastro de Jogo ---");
+        while (true) {
+            System.out.println("\n---Cadastro de Jogo ---");
+            System.out.println("Digite os dados do jogo , ou 'sair' para encerrar o cadastro :    ");
 
-        System.out.print("Título do Jogo: ");
-        String titulo = sc.nextLine().trim();
+            System.out.print("Título do Jogo: ");
+            String titulo = sc.nextLine().trim();
+            if (titulo.equalsIgnoreCase("sair")) {
+                break;
+            }
 
-        System.out.print("Nome da Plataforma (Ex: PS5, PC): ");
-        String plataforma = sc.nextLine().trim();
+            System.out.print("Nome da Plataforma :  ");
+            String plataforma = sc.nextLine().trim();
 
-        System.out.print("Preço da diária (Ex: 15.50): ");
-        BigDecimal preco = sc.nextBigDecimal();
+            System.out.print("Preço da diária : ");
+            BigDecimal preco = sc.nextBigDecimal();
+            sc.nextLine();
 
-        try {
-            jogoServico.cadastrarJogoComPlataforma(titulo, plataforma, preco);
-            System.out.println("\nJogo cadastrado na plataforma com sucesso!");
+            try {
+                jogoServico.cadastrarJogoComPlataforma(titulo, plataforma, preco);
+                System.out.println("\nJogo cadastrado na plataforma com sucesso!");
 
-        } catch (Exception e) {
-            System.err.println("\nErro ao cadastrar jogo: " + e.getMessage());
-        } finally {
-            em.close();
-            emf.close();
-            sc.close();
+            } catch (Exception e) {
+                System.err.println("\nErro ao cadastrar jogo: " + e.getMessage());
+                e.printStackTrace();
+            }
+            System.out.println("------------------------------------");
         }
+
+        System.out.println("Encerrando...");
+        em.close();
+        emf.close();
+        sc.close();
     }
 }

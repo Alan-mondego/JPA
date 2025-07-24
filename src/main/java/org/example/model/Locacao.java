@@ -12,7 +12,7 @@ import java.util.List;
 public class Locacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private LocalDate data;
 
@@ -23,11 +23,11 @@ public class Locacao {
     @OneToMany(mappedBy = "locacao", cascade = CascadeType.ALL)
     private List<ItemLocacao> itens = new ArrayList<>();
 
-    public Long getId() {
+    public  Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    protected void setId(Integer id) {
         this.id = id;
     }
 
