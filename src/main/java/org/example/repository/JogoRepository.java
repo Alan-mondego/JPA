@@ -7,14 +7,14 @@ import org.example.model.Plataforma;
 
 public class JogoRepository {
 
-    private final EntityManager em;
+    private final EntityManager manager;
 
     public JogoRepository(EntityManager em) {
-        this.em = em;
+        this.manager = em;
     }
 
     public Plataforma buscarPlataformaPorNome(String nome) {
-        return em.createQuery("SELECT p FROM Plataforma p WHERE p.nome = :nome", Plataforma.class)
+        return manager.createQuery("SELECT p FROM Plataforma p WHERE p.nome = :nome", Plataforma.class)
                 .setParameter("nome", nome)
                 .getResultStream()
                 .findFirst()
@@ -22,7 +22,7 @@ public class JogoRepository {
     }
 
     public Jogo buscarJogoPorTitulo(String titulo) {
-        return em.createQuery("SELECT j FROM Jogo j WHERE j.titulo = :titulo", Jogo.class)
+        return manager.createQuery("SELECT j FROM Jogo j WHERE j.titulo = :titulo", Jogo.class)
                 .setParameter("titulo", titulo)
                 .getResultStream()
                 .findFirst()
@@ -30,14 +30,14 @@ public class JogoRepository {
     }
 
     public void salvarPlataforma(Plataforma plataforma) {
-        em.persist(plataforma);
+        manager.persist(plataforma);
     }
 
     public void salvarJogo(Jogo jogo) {
-        em.persist(jogo);
+        manager.persist(jogo);
     }
 
     public void salvarJogoPlataforma(JogoPlataforma jogoPlataforma) {
-        em.persist(jogoPlataforma);
+        manager.persist(jogoPlataforma);
     }
 }

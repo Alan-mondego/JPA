@@ -8,17 +8,17 @@ import org.example.model.Locacao;
 
 public class LocacaoRepository {
 
-    private final EntityManager em;
+    private final EntityManager manager;
 
     public LocacaoRepository(EntityManager em) {
-        this.em = em;
+        this.manager = em;
     }
 
     public JogoPlataforma buscarJogoPlataformaPorId(JogoPlataformaId id) {
-        return em.find(JogoPlataforma.class, id);
+        return manager.find(JogoPlataforma.class, id);
     }
 
     public void salvar(Locacao locacao) {
-        em.persist(locacao);
+        manager.persist(locacao);
     }
 }

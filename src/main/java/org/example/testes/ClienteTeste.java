@@ -10,29 +10,29 @@ import java.util.Scanner;
 
 public class ClienteTeste {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("locadoraJogos");
-        EntityManager em = emf.createEntityManager();
-        Scanner sc = new Scanner(System.in);
-        ClienteServico clienteServico = new ClienteServico(em);
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("locadoraJogos");
+        EntityManager manager = factory.createEntityManager();
+        Scanner leitura = new Scanner(System.in);
+        ClienteServico cliServico = new ClienteServico(manager);
 
         while (true) {
             System.out.println("\n---Cadastro de Cliente ---");
             System.out.println("Digite seus dados , ou 'sair' para encerrar o cadastro :    ");
 
             System.out.print("Nome: ");
-            String nome = sc.nextLine().trim();
+            String nome = leitura.nextLine().trim();
             if (nome.equalsIgnoreCase("sair")) {
                 break;
             }
 
             System.out.print("Email: ");
-            String email = sc.nextLine().trim();
+            String email = leitura.nextLine().trim();
 
             System.out.print("Telefone: ");
-            String telefone = sc.nextLine().trim();
+            String telefone = leitura.nextLine().trim();
 
             System.out.print("Senha: ");
-            String senha = sc.nextLine().trim();
+            String senha = leitura.nextLine().trim();
 
             try {
                 Cliente novoCliente = new Cliente();
@@ -41,7 +41,7 @@ public class ClienteTeste {
                 novoCliente.setTelefone(telefone);
                 novoCliente.setSenha(senha);
 
-                clienteServico.cadastrarCliente(novoCliente);
+                cliServico.cadastrarCliente(novoCliente);
                 System.out.println("\nCliente cadastrado com sucesso! ID: " + novoCliente.getId());
 
             } catch (Exception e) {
@@ -52,8 +52,8 @@ public class ClienteTeste {
         }
 
         System.out.println("Encerrando...");
-        em.close();
-        emf.close();
-        sc.close();
+        manager.close();
+        factory.close();
+        leitura.close();
     }
 }

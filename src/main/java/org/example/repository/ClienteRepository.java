@@ -6,17 +6,17 @@ import org.example.model.Cliente;
 
 public class ClienteRepository {
 
-    private final EntityManager em;
+    private final EntityManager manager;
 
     public ClienteRepository(EntityManager em) {
-        this.em = em;
+        this.manager = em;
     }
 
     public void salvar(Cliente cliente) {
-        em.persist(cliente);
+        manager.persist(cliente);
     }
 
     public Cliente buscarPorId(Long id) {
-        return em.find(Cliente.class, id);
+        return manager.find(Cliente.class, id);
     }
 }

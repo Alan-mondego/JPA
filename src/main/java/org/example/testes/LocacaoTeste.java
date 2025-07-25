@@ -13,23 +13,24 @@ import java.util.Scanner;
 
 public class LocacaoTeste {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("locadoraJogos");
-        EntityManager em = emf.createEntityManager();
-        Scanner sc = new Scanner(System.in);
-        LocacaoServico locacaoServico = new LocacaoServico(em);
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("locadoraJogos");
+        EntityManager manager = factory.createEntityManager();
+        Scanner leitura = new Scanner(System.in);
+        LocacaoServico locacaoServico = new LocacaoServico(manager);
 
-        System.out.println("--- Teste de Realização de Locação ---");
-        System.out.println("IMPORTANTE: Você precisa ter cadastrado clientes e jogos anteriormente para este teste funcionar.");
+        System.out.println("---  Realização de Locação ---");
+        System.out.println("Somente clientes cadastrados podem realizar locação !");
 
         while (true) {
-            System.out.print("\nDigite o ID do Cliente para a locação (ou 0 para sair): ");
-            int clienteId = sc.nextInt();
-            if (clienteId == 0) {
+            System.out.print("\nDigite o ID do Cliente para a locação , ou digite 'sair' para encerrar : ");
+            String input = leitura.nextLine().trim();
+            if (input.equalsIgnoreCase("sair")) {
                 break;
             }
 
             try {
-                Cliente clienteParaLocacao = em.find(Cliente.class, clienteId);
+                int clienteId = Integer.parseInt(input);
+                Cliente clienteParaLocacao = manager.find(Cliente.class, clienteId);
                 if (clienteParaLocacao == null) {
                     System.err.println("Erro: Cliente com ID " + clienteId + " não encontrado. Tente novamente.");
                     continue;
@@ -38,23 +39,21 @@ public class LocacaoTeste {
                 List<ItemLocacao> itensParaAlugar = new ArrayList<>();
 
                 System.out.print("Digite o ID do Jogo: ");
-                Integer jogoId = sc.nextInt();
-                Jogo jogo = em.find(Jogo.class, jogoId);
-                if (jogo == null) {
-                    System.err.println("Erro: Jogo com ID " + jogoId + " não encontrado. Tente novamente.");
-                    continue;
-                }
+                int jogoId = Integer.parseInt(leitura.nextLine().trim());
+                Jogo jogo = manager.find(Jogo.class, jogoId);
 
                 System.out.print("Digite o ID da Plataforma: ");
-                Integer plataformaId = sc.nextInt();
-                Plataforma plataforma = em.find(Plataforma.class, plataformaId);
-                if (plataforma == null) {
-                    System.err.println("Erro: Plataforma com ID " + plataformaId + " não encontrada. Tente novamente.");
+                int plataformaId = Integer.parseInt(leitura.nextLine().trim());
+                Plataforma plataforma = manager.find(Plataforma.class, plataformaId);
+
+                if (jogo == null || plataforma == null) {
+                    System.err.println("Erro: Jogo ou Plataforma não encontrado. Tente novamente.");
                     continue;
                 }
 
                 System.out.print("Por quantos dias deseja alugar? ");
-                int dias = sc.nextInt();
+                int dias = Integer.parseInt(leitura.nextLine().trim());
+
 
                 ItemLocacao item = new ItemLocacao();
                 item.setJogoPlataforma(new JogoPlataforma(jogo, plataforma, null));
@@ -65,33 +64,26 @@ public class LocacaoTeste {
 
                 Locacao locacaoSalva = locacaoServico.realizarLocacao(clienteParaLocacao, itensParaAlugar);
 
-                BigDecimal precoFinal = BigDecimal.ZERO;
-                for (ItemLocacao itemSalvo : locacaoSalva.getItens()) {
 
-                    JogoPlataformaId jpId = new JogoPlataformaId(
-                            itemSalvo.getJogoPlataforma().getJogo().getId(),
-                            itemSalvo.getJogoPlataforma().getPlataforma().getId()
-                    );
-                    JogoPlataforma jpComPreco = em.find(JogoPlataforma.class, jpId);
-
-                    BigDecimal precoDiario = jpComPreco.getPrecoDiario();
-                    BigDecimal totalDias = new BigDecimal(itemSalvo.getDias());
-                    precoFinal = precoFinal.add(precoDiario.multiply(totalDias));
-                }
-
+                BigDecimal precoFinal = locacaoServico.calcularPrecoTotal(locacaoSalva);
 
                 System.out.println("\nLocação para o cliente '" + clienteParaLocacao.getNome() + "' realizada com sucesso!");
-                System.out.println(" VALOR TOTAL DA LOCAÇÃO: R$ " + precoFinal);
+                System.out.println("ID da Locação: " + locacaoSalva.getId());
+                System.out.println("VALOR TOTAL DA LOCAÇÃO: R$ " + precoFinal);
 
+            } catch (NumberFormatException e) {
+                System.err.println("Erro: Por favor, digite um número de ID válido.");
             } catch (Exception e) {
-                System.err.println("\n Erro ao realizar locação: " + e.getMessage());
+                System.err.println("\n--- OCORREU UM ERRO ---");
+                System.err.println("Mensagem: " + e.getMessage());
+
             }
             System.out.println("------------------------------------");
         }
 
         System.out.println("Encerrando...");
-        em.close();
-        emf.close();
-        sc.close();
+        manager.close();
+        factory.close();
+        leitura.close();
     }
 }

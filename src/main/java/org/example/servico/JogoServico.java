@@ -11,16 +11,16 @@ import java.math.BigDecimal;
 
 public class JogoServico {
 
-    private final EntityManager em;
+    private final EntityManager manager;
     private final JogoRepository jogoRepository;
 
     public JogoServico(EntityManager em) {
-        this.em = em;
+        this.manager = em;
         this.jogoRepository = new JogoRepository(em);
     }
 
     public void cadastrarJogoComPlataforma(String tituloJogo, String nomePlataforma, BigDecimal precoDiario) {
-        em.getTransaction().begin();
+        manager.getTransaction().begin();
 
         Plataforma plataforma = jogoRepository.buscarPlataformaPorNome(nomePlataforma);
         if (plataforma == null) {
@@ -37,6 +37,6 @@ public class JogoServico {
         JogoPlataforma jogoPlataforma = new JogoPlataforma(jogo, plataforma, precoDiario);
         jogoRepository.salvarJogoPlataforma(jogoPlataforma);
 
-        em.getTransaction().commit();
+        manager.getTransaction().commit();
     }
 }

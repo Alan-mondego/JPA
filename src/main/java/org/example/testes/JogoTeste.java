@@ -10,27 +10,28 @@ import java.util.Scanner;
 
 public class JogoTeste {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("locadoraJogos");
-        EntityManager em = emf.createEntityManager();
-        Scanner sc = new Scanner(System.in);
-        JogoServico jogoServico = new JogoServico(em);
+
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("locadoraJogos");
+        EntityManager manager = factory.createEntityManager();
+        Scanner leitura = new Scanner(System.in);
+        JogoServico jogoServico = new JogoServico(manager);
 
         while (true) {
-            System.out.println("\n---Cadastro de Jogo ---");
-            System.out.println("Digite os dados do jogo , ou 'sair' para encerrar o cadastro :    ");
+            System.out.println("\n--- Cadastro de Jogo ---");
+            System.out.println("Digite os dados do jogo, ou 'sair' para encerrar o cadastro:");
 
             System.out.print("Título do Jogo: ");
-            String titulo = sc.nextLine().trim();
+            String titulo = leitura.nextLine().trim();
             if (titulo.equalsIgnoreCase("sair")) {
                 break;
             }
 
-            System.out.print("Nome da Plataforma :  ");
-            String plataforma = sc.nextLine().trim();
+            System.out.print("Nome da Plataforma: ");
+            String plataforma = leitura.nextLine().trim();
 
-            System.out.print("Preço da diária : ");
-            BigDecimal preco = sc.nextBigDecimal();
-            sc.nextLine();
+            System.out.print("Preço da diária: ");
+            BigDecimal preco = leitura.nextBigDecimal();
+            leitura.nextLine(); // Limpa o buffer do scanner após ler um número
 
             try {
                 jogoServico.cadastrarJogoComPlataforma(titulo, plataforma, preco);
@@ -44,8 +45,8 @@ public class JogoTeste {
         }
 
         System.out.println("Encerrando...");
-        em.close();
-        emf.close();
-        sc.close();
+        manager.close();
+        factory.close();
+        leitura.close();
     }
 }
